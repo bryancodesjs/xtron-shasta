@@ -10,3 +10,5 @@ rm -fr manifest.json
 rm -fr robots.txt
 rm -fr static
 rm -fr web.config
+
+cp -fr ../trx-mlm-smart-contract-mobiloitte/build/* ./
