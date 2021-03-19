@@ -90,6 +90,7 @@ def get_transactions(account)
 end
 
 get '/account/:account' do
+  binding.pry
   puts "Processing Account: #{ params[:account] }"
   get_transactions(params[:account])
 end
