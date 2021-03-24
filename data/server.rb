@@ -16,11 +16,16 @@ end
 
 #Get transactions for contract
 def get_transactions(account)
+  #http://localhost:4567/account/TYyi6KVer7sXUH7pEVsezMZqL22vqALmbd&nocache=true
   started = Time.now
-  server_transaction = 'shastapi.tronscan.org'  
+  #server_transaction = 'shastapi.tronscan.org' 
+  server_transaction = 'apilist.tronscan.org'
+
   #contract           = 'TN8RbeAzW7YA5yuFYAVG42qjJR63DsE1ZN'
-  contract           = 'TBLhDkhyXaYESKf9UvB1BQrVXPX6ubjdHo'
+  #contract           = 'TBLhDkhyXaYESKf9UvB1BQrVXPX6ubjdHo'
+  contract           = 'TA4MuGPwQp6RUvD3uUsshZ4FNaYxWRKHbC'
   url_transactions   = "https://#{ server_transaction }/api/contracts/transaction?limit=1000&start=0&contract=#{ contract }"
+  #binding.pry
   data_transactions  = RestClient.get(url_transactions).body
   doc_transactions   = JSON.parse(data_transactions)
 
@@ -29,7 +34,9 @@ def get_transactions(account)
   events = []
   ops    = {:cache => 0, :nocache => 0, :total => 0}
 
-  server_event   = 'api.shasta.trongrid.io'
+  #server_event   = 'api.shasta.trongrid.io'
+  server_event   = 'api.trongrid.io'
+  #binding.pry
   doc_transactions['data'].map { |x| x['txHash'] }.each do |transaction_id|
 
     ops[:total] +=1 
@@ -90,7 +97,58 @@ def get_transactions(account)
 end
 
 get '/account/:account' do
+
+  #e5dee054-4292-473e-a339-b8ca125b0714
+
+
+  #e5dee054-4292-473e-a339-b8ca125b0714
   binding.pry
+=begin
+  curl --request GET \
+  --url https://api.trongrid.io/v1/contracts/TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t/events \
+  --header 'TRON-PRO-API-KEY: 25f66928-0b70-48cd-9ac6-da6f8247c663' 
+
+curl --request GET \
+--url https://api.trongrid.io/wallet/triggersmartcontract \
+--header 'TRON-PRO-API-KEY: e5dee054-4292-473e-a339-b8ca125b0714' \
+--data-raw '{"contract_address":"4100f9825ed065aeb576ec598332f797e0bba01f00","owner_address":"41f036a41c1b38583b72ac0c13ce0bb57eef0cfeaa","function_selector":"usersactiveM1Levels(address,uint8)","parameter":"000000000000000000000000fc632d3d9e4aa4bb384634d32cf78fd30c62cabf0000000000000000000000000000000000000000000000000000000000000009","call_value":0,"fee_limit":150000000}' \
+--compressed
+
+request  = RestClient::Request.execute(:method => :get, :url => 'https://api.trongrid.io/wallet/triggersmartcontract', :payload => '{"contract_address":"4100f9825ed065aeb576ec598332f797e0bba01f00","owner_address":"41f036a41c1b38583b72ac0c13ce0bb57eef0cfeaa","function_selector":"usersactiveM1Levels(address,uint8)","parameter":"000000000000000000000000fc632d3d9e4aa4bb384634d32cf78fd30c62cabf0000000000000000000000000000000000000000000000000000000000000009","call_value":0,"fee_limit":150000000}', :timeout => 60, :open_timeout => 60, :headers => { :content_type => "application/json", 'TRON-PRO-API-KEY' => 'e5dee054-4292-473e-a339-b8ca125b0714' } )
+
+
+curl 'https://api.trongrid.io/wallet/triggersmartcontract' \
+  -H 'authority: api.trongrid.io' \
+  -H 'sec-ch-ua: "Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36' \
+  -H 'content-type: application/json;charset=UTF-8' \
+  -H 'origin: https://xtron.online' \
+  -H 'sec-fetch-site: cross-site' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://xtron.online/' \
+  -H 'accept-language: en-US,en;q=0.9,es;q=0.8' \
+  --data-raw '{"contract_address":"4100f9825ed065aeb576ec598332f797e0bba01f00","owner_address":"41f036a41c1b38583b72ac0c13ce0bb57eef0cfeaa","function_selector":"usersactiveM1Levels(address,uint8)","parameter":"000000000000000000000000fc632d3d9e4aa4bb384634d32cf78fd30c62cabf0000000000000000000000000000000000000000000000000000000000000009","call_value":0,"fee_limit":150000000}' \
+  --compressed
+
+  curl 'https://api.tronstack.io/wallet/triggersmartcontract' \
+  -H 'Connection: keep-alive' \
+  -H 'sec-ch-ua: "Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"' \
+  -H 'Accept: application/json, text/plain, */*' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36' \
+  -H 'Content-Type: application/json;charset=UTF-8' \
+  -H 'Origin: https://xtron.online' \
+  -H 'Sec-Fetch-Site: cross-site' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Referer: https://xtron.online/' \
+  -H 'Accept-Language: en-US,en;q=0.9,es;q=0.8' \
+  --data-raw '{"contract_address":"4100f9825ed065aeb576ec598332f797e0bba01f00","owner_address":"41f036a41c1b38583b72ac0c13ce0bb57eef0cfeaa","function_selector":"usersactiveM1Level(address)","parameter":"000000000000000000000000fc632d3d9e4aa4bb384634d32cf78fd30c62cabf","call_value":0,"fee_limit":150000000}' \
+  --compressed
+=end
   puts "Processing Account: #{ params[:account] }"
   get_transactions(params[:account])
 end
