@@ -23,8 +23,9 @@ def get_transactions(account)
 
   #contract           = 'TN8RbeAzW7YA5yuFYAVG42qjJR63DsE1ZN'
   #contract           = 'TBLhDkhyXaYESKf9UvB1BQrVXPX6ubjdHo'
-  contract           = 'TA4MuGPwQp6RUvD3uUsshZ4FNaYxWRKHbC'
-
+  #contract           = 'TA4MuGPwQp6RUvD3uUsshZ4FNaYxWRKHbC'
+  contract           = 'TNABUPeKLdYse99szJDzmBcCRV99VgGsdJ'
+ 
  @doc_transactions    = []
  minimum = 50
  i = 0
@@ -37,6 +38,7 @@ def get_transactions(account)
   @doc_transactions << doc_transactions
  end
 
+ binding.pry
 
   transactions_dir   = "cache/transactions"
   FileUtils.mkdir_p transactions_dir
@@ -83,6 +85,7 @@ def get_transactions(account)
                                          :user         => toBase58(i['user']),
                                          :referrer_id  => i['referrerId'].to_i,  
                                          :referrer     => toBase58(i['referrer']),
+                                         :registration2 => "registration('#{ i['user'] }','#{ i['referrer'] }')",
                                          :registration => "registration(#{ toBase58(i['user']) },#{ toBase58(i['referrer']) })"
                                        }
                                   }
